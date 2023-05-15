@@ -1,0 +1,18 @@
+name: 'Kotlin main kts runner'
+
+description: 'Run the given code as a main.kts script'
+
+inputs:
+  script:
+    description: 'Kotlin code to run'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        file="$(mktemp).main.kts"
+        echo '${{ inputs.script }}' > "$file"
+        kotlinc -script "$file"
+        rm -f "$file"
